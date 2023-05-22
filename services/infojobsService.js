@@ -1,4 +1,3 @@
-// infojobsService.js
 async function getITOffers()  {
     const url_ofertas = 'https://api.infojobs.net/api/9/offer?category=informatica-telecomunicaciones&maxResults=23';
     const headers = {

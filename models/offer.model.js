@@ -20,6 +20,38 @@ const offerSchema = new Schema({
 
 
 
+
+
+
+
+offerSchema.statics.upsert = async (offers) => {
+    
+    for (const offer of offers) {
+        
+        const existingOffer = await Offer.findOne({ id: offer.id });
+
+        if (!existingOffer) {   
+            const AIGeneratedStack =  await Offer.getStackFromAI(offer);
+            offer.stack = AIGeneratedStack;
+            
+            
+            try {
+                const newOffer = new Offer(offer);
+                 await newOffer.save();                        
+            } catch(error) {
+                console.log(error);
+            }
+       }
+    }
+
+    return new Promise((resolve, reject) => {
+        resolve(offers);
+    });
+}
+
+
+
+
 offerSchema.statics.getStackFromAI = async (offer) => {
     try {
         const openai = new OpenAIApi(new Configuration({ apiKey: process.env.OPENAI_API_KEY }) );  
@@ -53,32 +85,6 @@ offerSchema.statics.getStackFromAI = async (offer) => {
     }
 }
 
-
-
-offerSchema.statics.upsert = async (offers) => {
-    
-    for (const offer of offers) {
-        
-        const existingOffer = await Offer.findOne({ id: offer.id });
-
-        if (!existingOffer) {   
-            const AIGeneratedStack =  await Offer.getStackFromAI(offer);
-            offer.stack = AIGeneratedStack;
-            
-            
-            try {
-                const newOffer = new Offer(offer);
-                 await newOffer.save();                        
-            } catch(error) {
-                console.log(error);
-            }
-       }
-    }
-
-    return new Promise((resolve, reject) => {
-        resolve(offers);
-    });
-}
 
 
 
