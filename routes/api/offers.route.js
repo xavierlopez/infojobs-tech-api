@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Offer = require('../../models/offer.model');
-
+const infojobsService = require('../../services/infojobsService');
 
 
 //CRUD OPERATIONS
@@ -65,32 +65,16 @@ router.delete('/:offerId', async (req,res) => {
 
 //FEEDING THE DATABASE
 router.patch('/dbfeed', async (req, res) => {
-    const url_ofertas = 'https://api.infojobs.net/api/9/offer?category=informatica-telecomunicaciones&maxResults=50';
-    const headers = {
-        'Authorization': `Basic ${process.env.API_KEY}`,
-      };
     try {
-        const response = await fetch(url_ofertas,{headers});
-        const ofertas_raw = await response.json();
-        const ofertas = ofertas_raw.items;
+        const ofertas = await infojobsService.getITOffers();
 
-        
-        const bulkOps = ofertas.map(oferta => ({
-            updateOne: {
-              filter: { id: oferta.id },
-              update: { $setOnInsert: oferta },
-              upsert: true
-            }
-          }))
-        
-        
-        const result = await Offer.bulkWrite(bulkOps);
+        const result = await Offer.upsert(ofertas);
           
         res.json(result);
 
 
     } catch (error) {
-        res.status(500).json({error: "Not able to feed (update) database"});
+        res.status(500).json({error: "Not able to feed database"});
     }
     
 });
