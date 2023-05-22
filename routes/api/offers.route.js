@@ -63,20 +63,17 @@ router.delete('/:offerId', async (req,res) => {
 
 
 
-//FEEDING THE DATABASE
+//FEEDING THE DATABASE through the REST API. 
+//It shouldn't be necessary as we have a cron job executing every minute.
 router.patch('/dbfeed', async (req, res) => {
     try {
-        const ofertas = await infojobsService.getITOffers();
-
-        const result = await Offer.upsert(ofertas);
-          
+        const gs = require('./services/generalService');
+        result= await gs.databasefeed();
         res.json(result);
-
 
     } catch (error) {
         res.status(500).json({error: "Not able to feed database"});
-    }
-    
+    } 
 });
 
 

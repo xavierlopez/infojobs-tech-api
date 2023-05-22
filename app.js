@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cors());
 app.use('/',require('./routes'));
 
-//executing cron jobs
+//initializing cron jobs
 require('./cronJobs');
 
 module.exports = app;
