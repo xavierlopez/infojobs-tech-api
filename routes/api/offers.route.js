@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const Offer = require('../../models/offer.model');
-const infojobsService = require('../../services/infojobsService');
-
 
 //CRUD OPERATIONS
 router.get('/', async (req, res) => {
@@ -14,20 +12,16 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:offerId', async (req,res) => {
-    //redireccionamos lo que nos devuelve infojobs
-    const url_oferta = `https://api.infojobs.net/api/7/offer/${req.params.offerId}`;
-    const headers = {
-        'Authorization': `Basic ${process.env.API_KEY}`,
-      };
     try {
-        const response = await fetch(url_oferta,{headers});
-        const oferta_raw = await response.json();
-        res.json(oferta_raw);
+        const offers = await Offer.find({id:req.params.offerId});
+        if (offers.length > 0) {
+            res.json(offers[0]);
+          } else {
+            res.status(404).json({ error: "La oferta no fue encontrada" });
+          }
     } catch (error) {
-        console.error('Error al procesar la solicitud:', error);
-        res.status(500).json({ error: 'Error en el servidor' });
-      }
-
+        res.status(500).json({error: "Ha ocurrido un error"});
+    }        
 });
 
 router.post('/', async (req,res) => {
@@ -62,20 +56,7 @@ router.delete('/:offerId', async (req,res) => {
 })
 
 
-/*
-//FEEDING THE DATABASE through the REST API. 
-//It shouldn't be necessary as we have a cron job executing every minute.
-router.patch('/dbfeed', async (req, res) => {
-    try {
-        const gs = require('./services/generalService');
-        result= await gs.databasefeed();
-        res.json(result);
 
-    } catch (error) {
-        res.status(500).json({error: "Not able to feed database"});
-    } 
-});
-*/
 
 
 
