@@ -30,19 +30,15 @@ offerSchema.statics.upsert = async (offers) => {
         const existingOffer = await Offer.findOne({ id: offer.id });
 
         if (!existingOffer) {   
-            const AIGeneratedStack =  await Offer.getStackFromAI(offer);
-            offer.stack = AIGeneratedStack;
             
-            
-            try {
+            const aIGeneratedStack =  await Offer.getStackFromAI(offer);
+            if (aIGeneratedStack) {
+                offer.stack = aIGeneratedStack;
                 const newOffer = new Offer(offer);
-                await newOffer.save();                        
-            } catch(error) {
-                console.log(error);
-            }
+                await newOffer.save();  
+            }        
        }
     }
-
     return new Promise((resolve, reject) => {
         resolve(offers);
     });
