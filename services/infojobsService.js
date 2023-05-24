@@ -10,20 +10,23 @@ async function getITOffers()  {
     return ofertas_raw.items;
 }
 
-async function getOffersById(id)  {
-    const url_oferta = 'https://api.infojobs.net/api/9/offer/'+id;
-    const headers = {
-        'Authorization': `Basic ${process.env.API_KEY}`,
-      };
 
-    const response = await fetch(url_oferta, {headers});
-    const oferta = await response.json();
-    
-    return oferta;
+
+const getDetailedOfferById = async (offer) => {
+  const url_oferta = 'https://api.infojobs.net/api/9/offer/'+offer.id;
+  const headers = {
+      'Authorization': `Basic ${process.env.API_KEY}`,
+    };
+
+  const response = await fetch(url_oferta, {headers});
+  const detailed_offer = await response.json();
+  
+  return detailed_offer;
+
 }
 
 
 module.exports = {
     getITOffers,
-    getOffersById
+    getDetailedOfferById
 }

@@ -10,10 +10,10 @@ cron.schedule('* * * * *', async () => {
 });
 */
 
-/*
+
 async function executenow() {
     console.log('Ejecutando tarea directamente');
     await gs.databasefeed();
 }
 executenow();
-*/
+

@@ -2,13 +2,16 @@ const Offer = require('../models/offer.model');
 const inf = require('./infojobsService');
 
 const dbfeed = async () =>  {
+    let result;
     try {
         const ofertas = await inf.getITOffers();
-        await Offer.upsert(ofertas);
+        result= await Offer.upsert(ofertas);
           
     } catch (error) {
         console.log({error: "Not able to feed database"});
     }
+    return (result || null)
 }
+
 
 module.exports.databasefeed = dbfeed;

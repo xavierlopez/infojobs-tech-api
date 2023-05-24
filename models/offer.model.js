@@ -1,66 +1,65 @@
 const mongoose = require('mongoose');
-const openAIService = require('../services/openAIService');
 const Schema = mongoose.Schema;
-
-        
+const openAIService = require('../services/openAIService');
+const inf = require('../services/infojobsService');        
 
 
 const offerSchema = new Schema({
-    id: { type: String },
+    id: { type: String,required:true },
     title: { type: String, required: true },
-    requirementMin:{ type: String},
-    city: {},
-        
+    requirementMin:{ type: String},    
     description: { type:String},
-    stack:{type:String, enum: ['frontend', 'backend', 'fullstack', 'mobile', 'devops','data', 'otro']},
+    stack:{type:String},
+    skills:{type: Array}
 
 },{
-    timestamps: true
+    timestamps: true,
+    strict: false 
 });
 
 
 
 
-
-
 offerSchema.statics.upsert = async (offers) => {
-    
+    let result;
     for (const offer of offers) {
-        
         const existingOffer = await Offer.findOne({ id: offer.id });
-
         if (!existingOffer) {   
             
-            const aIGeneratedStack =  await Offer.getStackFromAI(offer);
-            if (aIGeneratedStack) {
-                offer.stack = aIGeneratedStack;
-                const newOffer = new Offer(offer);
-                await newOffer.save();  
+            //First: we get the detailed offer 
+            let detailed_offer = await inf.getDetailedOfferById(offer);
+            
+            //Second: we process the offer with AI Service, where new properties are added
+            detailed_offer =  await Offer.processOfferWithAI(detailed_offer);
+            
+            //Third: we save offer to DB.
+            if (detailed_offer && detailed_offer.stack) {
+                const newOffer = new Offer(detailed_offer);
+                result = await newOffer.save();  
             }        
        }
     }
-    return new Promise((resolve, reject) => {
-        resolve(offers);
-    });
+
+    return (result || null);
 }
 
 
 
 
-offerSchema.statics.getStackFromAI = async (offer) => {
+offerSchema.statics.processOfferWithAI = async (offer) => {
     try {
 
-        const generatedStack = await openAIService.generateStack(offer);
-        const allowedStacks = [1, 2, 3, 4, 5, 6, 7];
-
-        if (allowedStacks.includes(generatedStack)) {
-            return Offer.getStringfromStackId(generatedStack);
+        offer =  await openAIService.addExtraProperties(offer);
+        
+        if (offer!=undefined && offer.stack!=undefined) {
+            offer.stack = Offer.getStringfromStackId(offer.stack);
+            return offer;
         } else {
             return 0;
         }
     
     } catch (error) {
-        console.log(error);
+        console.log('Error processing Offer with AI:' + error);
     }
 }
 
@@ -78,9 +77,7 @@ offerSchema.statics.getStringfromStackId=  (number) => {
         6: "mobile",
         7: "otro"
     };
-
-
-    return classificationObj[number] || 'Invalid';
+    return classificationObj[number] || null;
 }
 
 
