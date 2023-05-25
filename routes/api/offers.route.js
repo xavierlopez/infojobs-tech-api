@@ -5,7 +5,10 @@ const Offer = require('../../models/offer.model');
 router.get('/', async (req, res) => {
     try {
         const offers = await Offer.find();
-        res.json(offers);
+        
+        simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
+        
+        res.json(simplified_offers);
     } catch (error) {
         res.status(500).json({error: "Ha ocurrido un error"});
     }    
@@ -54,10 +57,6 @@ router.delete('/:offerId', async (req,res) => {
         res.status(500).json({error:'An error ocurred'});
     }
 })
-
-
-
-
 
 
 
