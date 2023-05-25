@@ -114,6 +114,36 @@ offerSchema.statics.simplifyOffer = (offer) => {
 
 
 
+offerSchema.statics.getStackStatistics = async (stack_string) => {
+    let offers = await Offer.find({stack:stack_string});
+   
+    
+    let skillsList = offers.reduce((skills, offer) => {
+        if (!skills[offer.stack]) {
+            skills[offer.stack] = {};
+        }
+
+        offer.skills.forEach(skill => {
+            if (!skills[offer.stack][skill]) {
+                skills[offer.stack][skill] = 0;
+            }
+        skills[offer.stack][skill]++;
+        });
+        return skills;
+    }, {});
+   
+      
+    let skills_object = skillsList[stack_string];   
+    let entries = Object.entries(skills_object);
+    entries.sort((a, b) => b[1] - a[1]);
+    let skills_object_sorted = Object.fromEntries(entries);
+
+
+    return skills_object_sorted;
+}
+
+
+
 
 const Offer = mongoose.model('offer', offerSchema);
 

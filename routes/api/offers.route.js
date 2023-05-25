@@ -5,9 +5,7 @@ const Offer = require('../../models/offer.model');
 router.get('/', async (req, res) => {
     try {
         const offers = await Offer.find();
-        
         simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
-        
         res.json(simplified_offers);
     } catch (error) {
         res.status(500).json({error: "Ha ocurrido un error"});
@@ -56,8 +54,16 @@ router.delete('/:offerId', async (req,res) => {
     } catch {
         res.status(500).json({error:'An error ocurred'});
     }
-})
+});
 
+
+router.get('/stack/:stack', async (req,res) => {
+    try {
+       res.json(await Offer.getStackStatistics(req.params.stack));
+    } catch(e) {
+        console.log("Error while get Stack Statistics");
+    }
+});
 
 
 module.exports = router;
