@@ -1,7 +1,7 @@
 const Offer = require('../models/offer.model');
 const inf = require('./infojobsService');
 
-const dbfeed = async () =>  {
+const databasefeed = async () =>  {
     let result;
     try {
         const ofertas = await inf.getITOffers();
@@ -14,4 +14,4 @@ const dbfeed = async () =>  {
 }
 
 
-module.exports.databasefeed = dbfeed;
+module.exports.databasefeed = databasefeed;

@@ -4,7 +4,7 @@ const Offer = require('../../models/offer.model');
 //CRUD OPERATIONS
 router.get('/', async (req, res) => {
     try {
-        const offers = await Offer.find();
+        const offers = await Offer.find().sort('-_id');
         simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
         res.json(simplified_offers);
     } catch (error) {
