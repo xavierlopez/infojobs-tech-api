@@ -45,7 +45,7 @@
     },
     "/stack/{stack}": {
       "get": {
-        "summary": "Get an sorted array of skills given a stack.",
+        "summary": "Get a sorted array of skills given a stack",
         "parameters": [
           {
             "in": "path",

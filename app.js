@@ -11,6 +11,12 @@ app.use(cors());
 app.use('/docs', express.static('docs'));
 app.use('/',require('./routes'));
 
+//Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./docs/openapi.json');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+
 //initializing cron jobs
 require('./cronJobs');
 
