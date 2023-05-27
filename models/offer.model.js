@@ -19,6 +19,15 @@ const offerSchema = new Schema({
 
 
 
+/**
+ * Upsert (update or insert) an array of offers.
+ * 
+ * @static
+ * @async
+ * @param {Array} offers - The array of offer objects to upsert.
+ * @returns {Promise<Object|null>} The result of the last save operation, or null if no offers were saved.
+ * @throws {Error} If there is an error in getting the detailed offer, processing the offer with AI, or saving the offer.
+ */
 
 offerSchema.statics.upsert = async (offers) => {
     let result;
@@ -51,6 +60,19 @@ offerSchema.statics.upsert = async (offers) => {
 
 
 
+
+/**
+ * Process an offer object with AI.
+ * 
+ * This function takes an offer object and adds extra properties to it using an AI service. 
+ *
+ * @static
+ * @async
+ * @param {Object} offer - The offer object to process.
+ * @returns {Promise<Object|number>} The processed offer object, or 0 if the offer or its stack is undefined.
+ * @throws {Error} If there is an error in processing the offer with AI.
+ */
+
 offerSchema.statics.processOfferWithAI = async (offer) => {
     try {
 
@@ -71,7 +93,11 @@ offerSchema.statics.processOfferWithAI = async (offer) => {
 
 
 
-
+/*
+* @static
+* @param {number} number - The ID of the technology stack.
+* @returns {string|null} The corresponding technology stack string, or null if the ID does not correspond to any technology stack.
+*/
 offerSchema.statics.getStringfromStackId =  (number) => {
     let classificationObj = {
         1: "frontend",
@@ -87,9 +113,16 @@ offerSchema.statics.getStringfromStackId =  (number) => {
 
 
 
+
+/**
+ * Simplify an offer object.
+ *
+ * @static
+ * @param {Object} offer - The offer object to simplify.
+ * @returns {Object} A simplified offer object.
+ */
+
 offerSchema.statics.simplifyOffer = (offer) => {
-
-
     let simplified_offer = {
         _id: offer._id,
         id: offer.id,
@@ -113,6 +146,17 @@ offerSchema.statics.simplifyOffer = (offer) => {
 }
 
 
+
+
+/**
+ * Get statistics for a specific technology stack.
+ * 
+ * @static
+ * @async
+ * @param {string} stack_string - The technology stack to get statistics for.
+ * @returns {Promise<Object>} An object containing skills as keys and their frequencies as values, sorted by frequency.
+ * @throws {Error} If there is an error in retrieving the offers or calculating the statistics.
+ */
 
 offerSchema.statics.getStackStatistics = async (stack_string) => {
     let offers = await Offer.find({stack:stack_string});
