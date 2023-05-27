@@ -8,6 +8,7 @@ const cron = require('node-cron');
 app.use(express.json());
 app.use(express.urlencoded({extended:true})); 
 app.use(cors());
+app.use('/docs', express.static('docs'));
 app.use('/',require('./routes'));
 
 //initializing cron jobs
