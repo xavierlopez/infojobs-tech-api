@@ -9,18 +9,10 @@
       "url": "https://infojobstech-api.onrender.com/api/offers"
     }
   ],
-  "tags": [
-    {
-      "name": "offer"
-    }
-  ],
   "paths": {
     "/": {
       "get": {
         "summary": "Get all offers",
-        "tags": [
-          "offer"
-        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -47,6 +39,26 @@
           },
           "404": {
             "description": "Offer not found"
+          }
+        }
+      }
+    },
+    "/stack/{stack}": {
+      "get": {
+        "summary": "Get an sorted array of skills given a stack.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "stack",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
