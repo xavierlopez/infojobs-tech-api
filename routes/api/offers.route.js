@@ -1,7 +1,14 @@
 const router = require('express').Router();
 const Offer = require('../../models/offer.model');
 
-//CRUD OPERATIONS
+
+
+
+/**
+ * GET /offers
+ * 
+ * This route retrieves all offers from the database, simplifies them, and sends them in the response (sorted by newest first).
+ */
 router.get('/', async (req, res) => {
     try {
         const offers = await Offer.find().sort('-_id');
@@ -12,6 +19,10 @@ router.get('/', async (req, res) => {
     }    
 });
 
+
+/**
+ * GET /:offerId
+ */
 router.get('/:offerId', async (req,res) => {
     try {
         const offers = await Offer.find({id:req.params.offerId});
@@ -25,45 +36,19 @@ router.get('/:offerId', async (req,res) => {
     }        
 });
 
-router.post('/', async (req,res) => {
-    try {
-        const newOffer = await Offer.create(req.body);
-        res.json(newOffer);
-    } catch {
-        res.status(500).json({error:'An error ocurred'});
-    }
-});
 
-router.put('/:offerId', async (req,res) => {
-    try {
-        const offerEdit = await Offer.findByIdAndUpdate(
-            req.params.offerId,
-            req.body,
-            {new:true}
-        );
-        res.json(offerEdit);
-    } catch {
-        res.status(500).json({error:'An error ocurred'});
-    }
-});
-
-router.delete('/:offerId', async (req,res) => {
-    try {
-        const offer = await Offer.findByIdAndDelete(req.params.offerId);
-        res.json(offer);
-    } catch {
-        res.status(500).json({error:'An error ocurred'});
-    }
-});
-
-
+/**
+ * GET /stack/:stack
+ */
 router.get('/stack/:stack', async (req,res) => {
     try {
        res.json(await Offer.getStackStatistics(req.params.stack));
     } catch(e) {
-        console.log("Error while get Stack Statistics");
+        console.log(" Error while get Stack Statistics");
+        res.status(400).send('Incorrect stack name provided');
     }
 });
+
 
 
 module.exports = router;

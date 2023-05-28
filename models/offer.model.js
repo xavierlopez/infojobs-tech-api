@@ -187,8 +187,6 @@ offerSchema.statics.getStackStatistics = async (stack_string) => {
 }
 
 
-
-
 const Offer = mongoose.model('offer', offerSchema);
 
 

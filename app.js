@@ -18,6 +18,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 //initializing cron jobs
-require('./cronJobs');
+const job = require('./cronJobs');
 
 module.exports = app;
+module.exports.feedingJob = job;
