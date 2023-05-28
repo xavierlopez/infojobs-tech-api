@@ -8,12 +8,12 @@ const addExtraProperties = async (offer) => {
             model:"gpt-3.5-turbo",
             messages: [
                 {role:'user', 
-                content: `Clasifica la siguiente oferta de trabajo en una categoría numérica donde '1' corresponde a 'frontend', '2' a 'backend', '3' a 'fullstack', '4' a 'data', '5' a 'devops', '6' a 'mobile', y '7' a 'otro'. La respuesta debe ser solo el número correspondiente a la categoría, sin ninguna otra información. Aquí está la oferta de trabajo: ${offer.title}  `}
+                content: process.env.OPENAI_PROMPT_CLASSIFY + offer.title }
             ]
         });  
 
 
-        console.log('PREGUNTA:', offer.title);
+        console.log('PREGUNTA:', process.env.OPENAI_PROMPT_CLASSIFY + offer.title);
         console.log('RESPUESTA:', completion.data.choices[0].message);
         
         const generatedStack = parseInt(completion.data.choices[0].message.content);
