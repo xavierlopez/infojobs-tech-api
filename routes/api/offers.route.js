@@ -9,13 +9,13 @@ const Offer = require('../../models/offer.model');
  * 
  * This route retrieves all offers from the database, simplifies them, and sends them in the response (sorted by newest first).
  */
-router.get('/', async (req, res,next) => {
+router.get('/', async (req, res, next) => {
     try {
-        const offers = await Offer.find().sort('-_id');
+        const offers = await Offer.find().sort('-_id').limit(50);
         simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
         res.json(simplified_offers);
     } catch (error) {
-        next(error);
+        return next(error);
     }    
 });
 
