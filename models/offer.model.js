@@ -42,7 +42,7 @@ offerSchema.statics.upsert = async (offers) => {
             detailed_offer = detailed_offer ? await Offer.processOfferWithAI(detailed_offer) : detailed_offer;
 
             //3rd: we save offer to DB.
-            if (detailed_offer && detailed_offer.stack && detailed_offer.stack!="otro" ) {
+            if (detailed_offer && detailed_offer.stack) {
                 const newOffer = new Offer(detailed_offer);
                 result = await newOffer.save();  
             }        
