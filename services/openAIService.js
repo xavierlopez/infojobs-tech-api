@@ -11,20 +11,14 @@ const addExtraProperties = async (offer) => {
                 content: process.env.OPENAI_PROMPT_CLASSIFY + offer.title }
             ]
         });  
-
-
-        console.log('PREGUNTA:', process.env.OPENAI_PROMPT_CLASSIFY + offer.title);
-        console.log('RESPUESTA:', completion.data.choices[0].message);
-        
+      
         const generatedStack = parseInt(completion.data.choices[0].message.content);
         offer.stack = generatedStack;
         offer.skills = skills;
-        return offer;
-          
+        return offer;   
     } catch(error) {
-        console.log("Error from completion (normally just a limit use, so it will be fixed automatically in next api call): " + error);
+        console.log(" Error from completion (normally just a limit use, so it will be fixed automatically in next api call): " + error);
     }
-
 }
 
 module.exports.addExtraProperties = addExtraProperties;

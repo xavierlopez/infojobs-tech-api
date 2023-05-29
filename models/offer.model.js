@@ -35,14 +35,13 @@ offerSchema.statics.upsert = async (offers) => {
         const existingOffer = await Offer.findOne({ id: offer.id });
         if (!existingOffer) {   
             
-            //First: we get the detailed offer 
+            //1st: we get the detailed offer 
             let detailed_offer = await inf.getDetailedOfferById(offer);
             
-            //Second: we process the offer with AI Service, where new properties are added
+            //2nd: we process the offer with AI Service, where new properties are added
             detailed_offer = detailed_offer ? await Offer.processOfferWithAI(detailed_offer) : detailed_offer;
 
-
-            //Third: we save offer to DB.
+            //3rd: we save offer to DB.
             if (detailed_offer && detailed_offer.stack) {
                 const newOffer = new Offer(detailed_offer);
                 try {
@@ -75,40 +74,16 @@ offerSchema.statics.upsert = async (offers) => {
 
 offerSchema.statics.processOfferWithAI = async (offer) => {
     try {
-
         offer =  await openAIService.addExtraProperties(offer);
-        
         if (offer!=undefined && offer.stack!=undefined) {
             offer.stack = Offer.getStringfromStackId(offer.stack);
             return offer;
         } else {
             return 0;
         }
-    
     } catch (error) {
         console.log('Error processing Offer with AI:' + error);
     }
-}
-
-
-
-
-/*
-* @static
-* @param {number} number - The ID of the technology stack.
-* @returns {string|null} The corresponding technology stack string, or null if the ID does not correspond to any technology stack.
-*/
-offerSchema.statics.getStringfromStackId =  (number) => {
-    let classificationObj = {
-        1: "frontend",
-        2: "backend",
-        3: "fullstack",
-        4: "data",
-        5: "devops",
-        6: "mobile",
-        7: "otro"
-    };
-    return classificationObj[number] || null;
 }
 
 
@@ -147,15 +122,12 @@ offerSchema.statics.simplifyOffer = (offer) => {
 
 
 
-
 /**
  * Get statistics for a specific technology stack.
  * 
  * @static
  * @async
  * @param {string} stack_string - The technology stack to get statistics for.
- * @returns {Promise<Object>} An object containing skills as keys and their frequencies as values, sorted by frequency.
- * @throws {Error} If there is an error in retrieving the offers or calculating the statistics.
  */
 
 offerSchema.statics.getStackStatistics = async (stack_string) => {
@@ -175,15 +147,28 @@ offerSchema.statics.getStackStatistics = async (stack_string) => {
         });
         return skills;
     }, {});
-   
-      
+       
     let skills_object = skillsList[stack_string];   
     let entries = Object.entries(skills_object);
     entries.sort((a, b) => b[1] - a[1]);
     let skills_object_sorted = Object.fromEntries(entries);
 
-
     return skills_object_sorted;
+}
+
+
+
+offerSchema.statics.getStringfromStackId =  (number) => {
+    let classificationObj = {
+        1: "frontend",
+        2: "backend",
+        3: "fullstack",
+        4: "data",
+        5: "devops",
+        6: "mobile",
+        7: "otro"
+    };
+    return classificationObj[number] || null;
 }
 
 

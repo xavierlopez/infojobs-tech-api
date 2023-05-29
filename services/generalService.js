@@ -10,6 +10,7 @@ const databasefeed = async () =>  {
     } catch (error) {
         console.log({error: "Not able to feed database"});
     }
+    
     return (result || null)
 }
 
