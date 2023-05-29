@@ -9,13 +9,13 @@ const Offer = require('../../models/offer.model');
  * 
  * This route retrieves all offers from the database, simplifies them, and sends them in the response (sorted by newest first).
  */
-router.get('/', async (req, res) => {
+router.get('/', async (req, res,next) => {
     try {
         const offers = await Offer.find().sort('-_id');
         simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
         res.json(simplified_offers);
     } catch (error) {
-        res.status(500).json({error: "Ha ocurrido un error"});
+        next(error);
     }    
 });
 
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 /**
  * GET /:offerId
  */
-router.get('/:offerId', async (req,res) => {
+router.get('/:offerId', async (req,res,next) => {
     try {
         const offers = await Offer.find({id:req.params.offerId});
         if (offers.length > 0) {
@@ -32,7 +32,7 @@ router.get('/:offerId', async (req,res) => {
             res.status(404).json({ error: "La oferta no fue encontrada" });
           }
     } catch (error) {
-        res.status(500).json({error: "Ha ocurrido un error"});
+        next(error);
     }        
 });
 
@@ -40,12 +40,11 @@ router.get('/:offerId', async (req,res) => {
 /**
  * GET /stack/:stack
  */
-router.get('/stack/:stack', async (req,res) => {
+router.get('/stack/:stack', async (req,res,next) => {
     try {
        res.json(await Offer.getStackStatistics(req.params.stack));
     } catch(e) {
-        console.log(" Error while get Stack Statistics");
-        res.status(400).send('Incorrect stack name provided');
+        next(e);
     }
 });
 

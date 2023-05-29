@@ -11,6 +11,11 @@ app.use(cors());
 app.use('/docs', express.static('docs'));
 app.use('/',require('./routes'));
 
+
+const errorHandler = require('./middleware/errorHandler'); 
+app.use(errorHandler);
+
+
 //Swagger
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./docs/openapi.json');

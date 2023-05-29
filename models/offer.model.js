@@ -73,7 +73,6 @@ offerSchema.statics.upsert = async (offers) => {
  */
 
 offerSchema.statics.processOfferWithAI = async (offer) => {
-    try {
         offer =  await openAIService.addExtraProperties(offer);
         if (offer!=undefined && offer.stack!=undefined) {
             offer.stack = Offer.getStringfromStackId(offer.stack);
@@ -81,9 +80,6 @@ offerSchema.statics.processOfferWithAI = async (offer) => {
         } else {
             return 0;
         }
-    } catch (error) {
-        console.log('Error processing Offer with AI:' + error);
-    }
 }
 
 
