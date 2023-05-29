@@ -1,5 +1,5 @@
 async function getITOffers()  {
-    const url_ofertas = 'https://api.infojobs.net/api/9/offer?category=informatica-telecomunicaciones&maxResults=50';
+    const url_ofertas = 'https://api.infojobs.net/api/9/offer?category=informatica-telecomunicaciones&maxResults=5';
     const headers = {
         'Authorization': `Basic ${process.env.API_KEY}`,
       };
