@@ -44,19 +44,13 @@ offerSchema.statics.upsert = async (offers) => {
             //3rd: we save offer to DB.
             if (detailed_offer && detailed_offer.stack) {
                 const newOffer = new Offer(detailed_offer);
-                try {
-                    result = await newOffer.save();  
-                } catch (e) {
-                    console.log("Error saving new Offer:" +e);
-                }
+                result = await newOffer.save();  
             }        
        }
     }
 
     return (result || null);
 }
-
-
 
 
 
@@ -81,7 +75,6 @@ offerSchema.statics.processOfferWithAI = async (offer) => {
             return 0;
         }
 }
-
 
 
 
