@@ -28,15 +28,9 @@ Con InfoJobs Tech **hemos añadido ese filtro avanzado extendiendo la API de Inf
 
 Además, **hemos querido traer datos reales en cuanto a cómo está el mercado en la actualidad**, para que el usuario se haga una idea de en cuánto está la media de salario de su especialidad. Todo utilizando los datos de la [API de InfoJobs](https://developer.infojobs.net/).
 
-<div align="center" style="margin: 40px 0;">
-    <img src="./screens/salary-stack.png" width="500" alt="Salarios InfoJobs Tech" />
-</div>
 
 También le hemos querido dar algo más de velocidad al tema de las ofertas de trabajo. Al utilizar Next.js y recoger los datos del servidor, podemos acceder a las ofertas de trabajo de una forma rápida y cómoda. Además, la pantalla de cada oferta de trabajo individual ha recibido una bocanada de aire fresco.
 
-<div align="center" style="margin: 40px 0;">
-    <img src="./screens/job-offer.png" width="500" alt="Pantalla Puesto de Trabajo" />
-</div>
 
 De esta forma, el usuario ve a vista de pájaro si esa oferta se ajusta a lo que está buscando.
 
