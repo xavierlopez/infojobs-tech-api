@@ -1,6 +1,10 @@
-API Rest de InfoJobs Tech.
+API REST for project InfoJobs Tech.
 
+## API
 
+La API está completamente accesible al público. Como hemos mencionado, es una versión extendida de la propia API de InfoJobs en la que ya tenemos las ofertas categorizadas por stack.
+
+Tienes toda la documentación [aquí](https://infojobstech-api.onrender.com/api-docs/).
 
 
 <div align="center">
@@ -40,11 +44,6 @@ De esta forma, el usuario ve a vista de pájaro si esa oferta se ajusta a lo que
 
 Lo tienes por [aquí](https://infojobs-tech.vercel.app).
 
-## API
-
-La API está completamente accesible al público. Como hemos mencionado, es una versión extendida de la propia API de InfoJobs en la que ya tenemos las ofertas categorizadas por stack.
-
-Tienes toda la documentación [aquí](https://infojobstech-api.onrender.com/api-docs/).
 
 ## Contacto
 
