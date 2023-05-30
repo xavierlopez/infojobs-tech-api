@@ -1,4 +1,5 @@
-This is the REST API for project InfoJobs Tech. You can see deployed version with frontend here: https://infojobs-tech.vercel.app/
+This is the REST API for the project InfoJobs Tech. 
+You can see deployed version of this MVP with frontend included here: https://infojobs-tech.vercel.app/
 
 ## API
 
