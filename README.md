@@ -5,7 +5,6 @@ API Rest de InfoJobs Tech.
 
 <div align="center">
 
-<img src="./screens/main.png" width="300" alt="Pantalla Principal InfoJobs Tech" />
 
 # 🖥️ Infojobs Tech
 
