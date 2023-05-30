@@ -120,7 +120,7 @@ offerSchema.statics.simplifyOffer = (offer) => {
  */
 
 offerSchema.statics.getStackStatistics = async (stack_string) => {
-    let offers = await Offer.find({stack:stack_string}).limit(60);
+    let offers = await Offer.find({stack:stack_string}).limit(40);
    
     
     let skillsList = offers.reduce((skills, offer) => {
