@@ -11,7 +11,7 @@ const Offer = require('../../models/offer.model');
  */
 router.get('/', async (req, res, next) => {
     try {
-        const offers = await Offer.find({ stack: { $ne: "otro" } }).sort('-_id').limit(100);
+        const offers = await Offer.find({ stack: { $ne: "otro" } }).sort('-_id').limit(65);
         simplified_offers = offers.map(offer => Offer.simplifyOffer(offer));
         res.json(simplified_offers);
     } catch (error) {
